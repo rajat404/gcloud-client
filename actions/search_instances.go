@@ -3,6 +3,7 @@ package action
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/devdinu/gcloud-client/config"
 	"github.com/devdinu/gcloud-client/gcloud"
@@ -56,12 +57,27 @@ func (s searcher) searchInstances(c gcloud.Client, args config.Args, matcher sto
 
 func (s searcher) formatInstances(insts []gcloud.Instance, args config.Args) error {
 	hostMapping := args.InstanceCmdArgs.HostMapping
+	ipOnly := args.InstanceCmdArgs.IPOnly
+
 	if hostMapping {
 		for _, ins := range insts {
 			fmt.Printf("%-16s  %s\n", ins.IP(), ins.Name)
 		}
 		return nil
 	}
+
+	if ipOnly {
+		output := ""
+		sep := ","
+		for _, ins := range insts {
+			output += ins.IP() + sep
+		}
+		output = strings.TrimRight(output, ",")
+		fmt.Printf("%s", output)
+		fmt.Printf("\n")
+		return nil
+	}
+
 	for _, ins := range insts {
 		fmt.Printf("%s\n", ins)
 	}

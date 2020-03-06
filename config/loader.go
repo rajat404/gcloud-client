@@ -13,6 +13,7 @@ type InstanceCmdArgs struct {
 	Regex       string
 	Refresh     bool
 	HostMapping bool
+	IPOnly      bool
 }
 
 type Login struct {
@@ -71,6 +72,7 @@ func MustLoad() {
 	instanceCommand.StringVar(&instanceArgs.Prefix, "prefix", "", "search instances by common prefix")
 	instanceCommand.StringVar(&instanceArgs.Regex, "regex", "", "search instances by regex")
 	instanceCommand.BoolVar(&instanceArgs.HostMapping, "host_mapping", false, "return the search results in `/etc/hosts` file format")
+	instanceCommand.BoolVar(&instanceArgs.IPOnly, "ip_only", false, "returns comma separated list of IPs for matching hosts")
 	instanceCommand.StringVar(&args.Login.Session, "session", "login-session", "login sesssion name")
 	instanceCommand.StringVar(&args.Login.TemplatesDir, "templates", defaultCfg.TemplatesDir, "templates directory for tmuxinator")
 
