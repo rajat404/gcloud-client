@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 type Instance struct {
@@ -15,7 +16,10 @@ type Instance struct {
 }
 
 func (i Instance) String() string {
-	res := fmt.Sprintf("%-30s : %-50s %-10s", i.Project, i.Name, i.IP())
+	zoneURL := strings.Split(i.Zone, "zones/")
+	zone := zoneURL[len(zoneURL)-1]
+
+	res := fmt.Sprintf("%-30s %-50s %-30s %-30s", i.Project, i.Name, i.IP(), zone)
 	if i.ExternalIP() != "" {
 		return fmt.Sprintf("%s External: %s", res, i.ExternalIP())
 	}
